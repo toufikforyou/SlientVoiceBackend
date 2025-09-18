@@ -7,10 +7,6 @@ app.use("/robots.txt", (req, res) => {
   res.sendFile(path.resolve("robots.txt"));
 });
 
-app.use("/404", async (req, res) => {
-  res.status(404).send("Route not found!").end();
-});
-
 app.use(setHeader);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -23,7 +19,11 @@ import { errorHandler } from "./middlewares/api.error.middleware.js";
 app.use("/api", apiRouter);
 
 app.use((_, res) => {
-  res.redirect("/404");
+  res.status(404).json({
+    status: 404,
+    message: "Route not found",
+    data: null,
+  }).end();
 });
 
 // Api Error Middleware
