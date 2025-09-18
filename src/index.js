@@ -1,14 +1,10 @@
 import express from "express";
 import path from "path";
-import { fileURLToPath } from "url";
 import setHeader from "./utils/header.utils.js";
 const app = express();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 app.use("/robots.txt", (req, res) => {
-  const text = `User-agent: *\nDisallow: /`;
-  res.send(text);
+  res.sendFile(path.resolve("robots.txt"));
 });
 
 app.use("/404", async (req, res) => {
