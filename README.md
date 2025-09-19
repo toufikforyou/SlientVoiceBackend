@@ -33,17 +33,20 @@ A robust and scalable Node.js backend API for the SlientVoice project, built wit
 ## 🛠️ Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/toufikforyou/SlientVoiceBackend.git
    cd SlientVoiceBackend
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    # Edit .env file with your configuration
@@ -106,15 +109,16 @@ SlientVoiceBackend/
 
 ### User Management (v1)
 
-| Method | Endpoint | Description | Status |
-|--------|----------|-------------|--------|
-| `POST` | `/api/v1/users` | Create a new user | ✅ |
-| `GET` | `/api/v1/users` | Get all users | ❌ |
-| `GET` | `/api/v1/users/:uid` | Get user by UID | ✅ |
-| `PUT` | `/api/v1/users/:uid` | Update user by UID | ❌ |
-| `DELETE` | `/api/v1/users/:uid` | Delete user by UID | ✅ |
+| Method   | Endpoint             | Description        | Status |
+| -------- | -------------------- | ------------------ | ------ |
+| `POST`   | `/api/v1/users`      | Create a new user  | ✅     |
+| `GET`    | `/api/v1/users`      | Get all users      | ❌     |
+| `GET`    | `/api/v1/users/:uid` | Get user by UID    | ✅     |
+| `PUT`    | `/api/v1/users/:uid` | Update user by UID | ❌     |
+| `DELETE` | `/api/v1/users/:uid` | Delete user by UID | ✅     |
 
 ### Base URL
+
 ```
 http://localhost:3000/api/v1
 ```
@@ -122,6 +126,7 @@ http://localhost:3000/api/v1
 ## 💡 Usage Examples
 
 ### Create User
+
 ```bash
 curl -X POST http://localhost:3000/api/v1/users \
   -H "Content-Type: application/json" \
@@ -132,11 +137,13 @@ curl -X POST http://localhost:3000/api/v1/users \
 ```
 
 ### Get User by UID
+
 ```bash
 curl -X GET http://localhost:3000/api/v1/users/USER_12345
 ```
 
 ### Delete User
+
 ```bash
 curl -X DELETE http://localhost:3000/api/v1/users/USER_12345
 ```
@@ -144,6 +151,7 @@ curl -X DELETE http://localhost:3000/api/v1/users/USER_12345
 ## 🗄️ Database Models
 
 ### User Model
+
 ```javascript
 {
   uid: {
@@ -170,11 +178,13 @@ curl -X DELETE http://localhost:3000/api/v1/users/USER_12345
 ## ✅ Validation Rules
 
 ### Create User
+
 - `gid`: Required, string, minimum 3 characters
 - `uid`: Auto-generated, unique
 - `username`: Auto-generated if not provided
 
 ### Update User
+
 - `uid`: Cannot be updated (forbidden)
 - `gid`: Optional, string, minimum 3 characters if provided
 - `username`: Optional, string
@@ -195,6 +205,7 @@ npm run format
 ```
 
 ### Code Style
+
 This project uses Prettier for code formatting. Run `npm run format` to format your code.
 
 ### Adding New Features
@@ -208,6 +219,7 @@ This project uses Prettier for code formatting. Run `npm run format` to format y
 ## 📦 Dependencies
 
 ### Production Dependencies
+
 - **Express.js**: Web framework for Node.js
 - **Mongoose**: MongoDB object modeling
 - **Express Validator**: Input validation middleware
@@ -217,21 +229,25 @@ This project uses Prettier for code formatting. Run `npm run format` to format y
 - **multer**: File upload handling
 
 ### Development Dependencies
+
 - **nodemon**: Auto-restart development server
 - **prettier**: Code formatting
 
 ## 🔧 Services
 
 ### UID Generator Service
+
 Generates unique identifiers with customizable prefixes:
+
 ```javascript
-import uidGenerator from './services/uid.generator.service.js';
+import uidGenerator from "./services/uid.generator.service.js";
 
 const userId = uidGenerator("USER_"); // USER_ABC123DEF456
 const groupId = uidGenerator("GROUP_"); // GROUP_XYZ789GHI012
 ```
 
 ### Validation Service
+
 Centralized validation error handling using Express Validator and API Response model.
 
 ## 🚦 Error Handling
@@ -248,6 +264,7 @@ The API uses consistent error response format:
 ```
 
 ### HTTP Status Codes
+
 - `200`: Success
 - `201`: Created
 - `400`: Bad Request
@@ -264,6 +281,7 @@ The API uses consistent error response format:
 5. Open a Pull Request
 
 ### Development Guidelines
+
 - Follow the existing code structure
 - Use meaningful commit messages
 - Add validation for new endpoints
