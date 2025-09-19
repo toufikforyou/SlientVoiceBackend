@@ -1,4 +1,4 @@
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["*"];
 
 export default (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", allowedOrigins);

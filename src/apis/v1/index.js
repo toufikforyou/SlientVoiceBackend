@@ -13,7 +13,7 @@ router.get("/", (_, res) => {
   );
 });
 
-router.use("/users", userRoutes);
+router.use("/", userRoutes);
 
 router.use(() => {
   throw new ApiResponse.Error(404, "API version 1 route not found!");
