@@ -1,63 +1,45 @@
+import jwt from "jsonwebtoken";
 import UserModel from "../models/user.model.js";
 
 class UserController {
-  async createUser(req, res) {
+  async getUserLogin(req, res) {
     try {
-      const { uid, username } = req.body;
-      
-      const existingUser = await UserModel.findOne({
-        $or: [
-          { uid: uid },
-          { username: username },
-        ]
+      const { uid } = req.body;
+      const token = jwt.sign({ uid: uid }, process.env.JWT_USER_KEY_SECRET, {
+        expiresIn: "7d", // token valid for 7 days
       });
-
-      if (existingUser) {
-        return res.status(409).json({
-          success: false,
-          message: "User already exists",
-          error: "A user with this UID, username already exists"
-        });
-      }
 
       const userData = {
         uid: uid,
+        token: token,
       };
 
-      const newUser = new UserModel(userData);
-      const savedUser = await newUser.save();
-
-      res.status(201).json({
-        success: true,
-        message: "User created successfully",
-        data: savedUser,
-      });
-    } catch (error) {
-      res.status(400).json({
-        success: false,
-        message: "Error creating user",
-        error: error.message,
-      });
-    }
-  }
-
-  async getUserByUid(req, res) {
-    try {
-      const { uid } = req.params;
       const user = await UserModel.findOne({ uid });
 
       if (!user) {
-        return res.status(404).json({
-          success: false,
-          message: "User not found",
+        const newUser = new UserModel(userData);
+        const savedUser = await newUser.save();
+        
+        return res.status(201).json({
+          success: true,
+          message: "User created successfully",
+          data: savedUser,
         });
       }
+
+      // update this user's token if user already exists
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { uid: uid },
+        { token: token },
+        { new: true }
+      );
 
       res.status(200).json({
         success: true,
         message: "User retrieved successfully",
-        data: user,
+        data: updatedUser,
       });
+
     } catch (error) {
       res.status(500).json({
         success: false,
@@ -67,27 +49,25 @@ class UserController {
     }
   }
 
-  async deleteUser(req, res) {
+  async userTokenVerify(req, res, next) {
     try {
-      const { uid } = req.params;
-      const deletedUser = await UserModel.findOneAndDelete({ uid });
+      const { token } = req.body;
+      const decoded = jwt.verify(token, process.env.JWT_USER_KEY_SECRET);
+      const { uid } = decoded;
+      const user = await UserModel.findOne({ uid });
 
-      if (!deletedUser) {
+      if (!user) {
         return res.status(404).json({
           success: false,
           message: "User not found",
         });
       }
 
-      res.status(200).json({
-        success: true,
-        message: "User deleted successfully",
-        data: deletedUser,
-      });
+      next();
     } catch (error) {
-      res.status(500).json({
+      res.status(400).json({
         success: false,
-        message: "Error deleting user",
+        message: "Error verifying user token",
         error: error.message,
       });
     }

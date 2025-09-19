@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema(
       unique: true,
       default: () => uidGenerator(),
     },
+    token: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

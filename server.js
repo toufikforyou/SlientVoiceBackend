@@ -4,7 +4,7 @@ import app from "./src/index.js";
 
 connectDB()
   .then(() => {
-    app.listen(process.env.SERVER_PORT || 8000, () => {
+    app.listen(process.env.SERVER_PORT || 8000, "0.0.0.0", () => {
       console.log(`Server running on port: ${process.env.SERVER_PORT}`);
     });
   })
