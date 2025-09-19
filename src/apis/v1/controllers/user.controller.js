@@ -19,7 +19,7 @@ class UserController {
       if (!user) {
         const newUser = new UserModel(userData);
         const savedUser = await newUser.save();
-        
+
         return res.status(201).json({
           success: true,
           message: "User created successfully",
@@ -39,7 +39,6 @@ class UserController {
         message: "User retrieved successfully",
         data: updatedUser,
       });
-
     } catch (error) {
       res.status(500).json({
         success: false,

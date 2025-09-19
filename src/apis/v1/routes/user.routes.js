@@ -8,6 +8,11 @@ import validatorService from "../../../services/validator.valided.service.js";
 
 const router = express.Router();
 
-router.post("/auth", validateUidBody, validatorService, userController.getUserLogin);
+router.post(
+  "/auth",
+  validateUidBody,
+  validatorService,
+  userController.getUserLogin
+);
 
 export default router;
